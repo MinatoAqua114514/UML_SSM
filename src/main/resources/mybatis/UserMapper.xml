@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uml.dao.UserMapper">
+    <!-- 检查用户名是否已存在 -->
+    <select id="checkUsernameExists" parameterType="string" resultType="int">
+        SELECT COUNT(*)
+        FROM users
+        WHERE username = #{username}
+    </select>
+
+    <!-- 检查邮箱是否已存在 -->
+    <select id="checkEmailExists" parameterType="string" resultType="int">
+        SELECT COUNT(*)
+        FROM users
+        WHERE email = #{email}
+    </select>
+
+    <!-- 注册新用户 -->
+    <insert id="insertUser" parameterType="com.uml.model.User">
+        INSERT INTO users (username, password, email)
+        VALUES (#{username}, #{password}, #{email})
+    </insert>
+</mapper>
