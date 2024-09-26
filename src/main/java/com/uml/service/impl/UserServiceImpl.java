@@ -1,9 +1,17 @@
-package com.uml.service;
+package com.uml.service.impl;
 
 import com.uml.dao.UserMapper;
 import com.uml.model.User;
+import com.uml.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+/**
+ * @author: JLChen
+ * @since: 2024-09-26 12:11
+ * @description:
+ */
+
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -13,15 +21,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int checkUsernameExists(String username) {
-        return 0;
+        if (userMapper.checkUsernameExists(username) == 0) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 
     @Override
     public int checkEmailExists(String email) {
-        return 0;
+        if (userMapper.checkEmailExists(email) == 0) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 
     @Override
     public void insertUser(User user) {
+        userMapper.insertUser(user);
     }
 }
