@@ -9,6 +9,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.Objects;
+
+/**
+ * @author: JLChen
+ * @since: 2024-09-27 13:28
+ * @description:
+ */
+
+
 @Controller
 public class UserController {//i
 
@@ -36,5 +45,25 @@ public class UserController {//i
 
         // 返回注册成功的提示信息
         return ResponseEntity.ok("注册成功");
+    }
+
+    // 用户登录
+    @RequestMapping(
+            value = "/login",
+            method = RequestMethod.POST,
+            consumes = "application/json",
+            produces = "application/json"
+    )
+    public ResponseEntity<String> login(@RequestBody User user) {
+        if (userService.checkUsernameExists(user.getUsername()) != 0) {
+            String truePassword = userService.findPasswordByUsername(user.getUsername());
+            if (Objects.equals(truePassword, user.getPassword())) {
+                return ResponseEntity.ok("登录成功");
+            } else {
+                return ResponseEntity.badRequest().body("密码错误");
+            }
+        } else {
+            return ResponseEntity.badRequest().body("用户名不存在");
+        }
     }
 }

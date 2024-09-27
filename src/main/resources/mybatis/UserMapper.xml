@@ -22,4 +22,11 @@
         INSERT INTO users (username, password, email)
         VALUES (#{username}, #{password}, #{email})
     </insert>
+
+    <!-- 用户名登录匹配密码 -->
+    <select id="findPasswordByUsername" parameterType="string" resultType="string">
+        SELECT password
+        FROM users
+        WHERE username = #{username}
+    </select>
 </mapper>

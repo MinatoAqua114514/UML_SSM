@@ -11,4 +11,7 @@ public interface UserService {
 
     // 注册新用户
     void insertUser(User user);
+
+    // 用户名登录匹配密码
+    String findPasswordByUsername(String username);
 }
