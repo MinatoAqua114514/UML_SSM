@@ -1,6 +1,5 @@
 package com.uml.controller;
 
-import com.uml.model.Listing;
 import com.uml.model.User;
 import com.uml.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -68,22 +65,5 @@ public class UserController {//i
         } else {
             return ResponseEntity.badRequest().body("用户名不存在");
         }
-    }
-
-    //用户搜索、筛选民宿
-    @RequestMapping(
-            value = "/search",
-            method = RequestMethod.POST,
-            consumes = "application/json",
-            produces = "application/json"
-    )
-    public ResponseEntity<List<Listing>> search(@RequestBody Map<String, String> requestBody) {
-        String key = requestBody.get("key");
-        String district = requestBody.get("district");
-        List<Listing> listings = userService.searchListingByKeyOrDistrict(key, district);
-        if (listings!=null && !listings.isEmpty()) {
-            return ResponseEntity.ok(listings);
-        }
-        return ResponseEntity.badRequest().body(null);
     }
 }

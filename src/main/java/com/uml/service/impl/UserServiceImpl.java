@@ -1,14 +1,10 @@
 package com.uml.service.impl;
 
 import com.uml.dao.UserMapper;
-import com.uml.model.Listing;
 import com.uml.model.User;
 import com.uml.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
-import java.util.List;
 
 /**
  * @author: JLChen
@@ -51,13 +47,5 @@ public class UserServiceImpl implements UserService {
         return userMapper.findPasswordByUsername(username);
     }
 
-    @Override
-    public List<Listing> searchListingByKeyOrDistrict(String key, String district) {
-        List<Listing> listings = null;
-        listings = userMapper.searchListingByKeyOrDistrict(key, district);
-        for (Listing listing : listings) {
-            listing.setScore(userMapper.searchMarkByListingId(listing.getId()));
-        }
-        return listings;
-    }
+
 }
