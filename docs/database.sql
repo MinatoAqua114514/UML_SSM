@@ -75,3 +75,5 @@ CREATE TABLE evaluate
     FOREIGN KEY (listing_id) REFERENCES listings (id),
     FOREIGN KEY (mark_id) REFERENCES mark (id)
 );
+-- 查找父级地址
+-- select name from provinces where id = (select province_id from cities where id = (select city_id from districts where id = 1));

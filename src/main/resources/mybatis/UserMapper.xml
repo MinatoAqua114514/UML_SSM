@@ -29,4 +29,22 @@
         FROM users
         WHERE username = #{username}
     </select>
+
+    <!-- 根据用户输入和筛选条件查询民宿 -->
+    <select id="searchListingByKeyOrDistrict" parameterType="string" resultType="com.uml.model.Listing">
+        SELECT id,title,price,location
+        FROM listings
+        WHERE title
+        LIKE CONCAT('%', #{key}, '%')
+        and (select name
+            from districts
+            where id = district_id) = #{district}
+    </select>
+
+    <!-- 根据民宿id查询其评分 -->
+    <select id="searchMarkByListingId" parameterType="Integer" resultType="int">
+        SELECT score
+        FROM mark
+        WHERE listing_id = #{id}
+    </select>
 </mapper>
