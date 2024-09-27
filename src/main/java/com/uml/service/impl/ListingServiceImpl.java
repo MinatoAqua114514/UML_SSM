@@ -22,8 +22,7 @@ public class ListingServiceImpl implements ListingService {
 
     @Override
     public List<Listing> searchListingByKeyOrDistrict(String key, String district) {
-        List<Listing> listings = null;
-        listings = listingMapper.searchListingByKeyOrDistrict(key, district);
+        List<Listing> listings = listingMapper.searchListingByKeyOrDistrict(key, district);
         for (Listing listing : listings) {
             listing.setScore(listingMapper.findScoreByListingId(listing.getId()));
         }
