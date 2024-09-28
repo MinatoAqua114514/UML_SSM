@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.uml.dao.ListingMapper">
+
     <!-- 根据用户输入和筛选条件查询民宿 -->
     <select id="searchListingByKeyOrDistrict" parameterType="string" resultType="com.uml.model.Listing">
         SELECT id, title, price
@@ -15,9 +16,16 @@
     </select>
 
     <!-- 根据民宿ID获取民宿评分平均值 -->
-    <select id="findScoreByListingId" parameterType="int" resultType="int">
+    <select id="findScoreByListingId" parameterType="Integer" resultType="int">
         SELECT AVG(mark.score) AS average_score
         FROM mark
         WHERE mark.listing_id = #{id}; -- 替换为具体的民宿ID
+    </select>
+
+    <!-- 依据用户点击的id查询民宿详情 -->
+    <select id="searchDetailsByListingId" parameterType="Integer" resultType="com.uml.model.Listing">
+        SELECT *
+        FROM listings
+        WHERE id = #{id}
     </select>
 </mapper>

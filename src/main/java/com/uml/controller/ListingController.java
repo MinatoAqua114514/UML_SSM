@@ -16,7 +16,7 @@ public class ListingController {
     @Autowired
     private ListingService listingService;
 
-    //用户搜索、筛选民宿
+    //搜索、筛选民宿概要信息
     @RequestMapping(
             value = "/search",
             method = RequestMethod.POST,
@@ -37,6 +37,22 @@ public class ListingController {
     @GetMapping("/{id}/score")
     public int getScoreByListingId(@PathVariable Integer id) {
         return listingService.findScoreByListingId(id);
+    }
+
+    //查询显示民宿详细信息
+    @RequestMapping(
+            value = "/search_details",
+            method = RequestMethod.POST,
+            consumes = "application/json",
+            produces = "application/json"
+    )
+    public ResponseEntity<Listing> search_details(@RequestBody Map<String, Integer> requestBody) {
+        Integer id = requestBody.get("id");
+        Listing listing = listingService.searchDetailsByListingId(id);
+        if (listing != null) {
+            return ResponseEntity.ok(listing);
+        }
+        return ResponseEntity.badRequest().body(null);
     }
 }
 

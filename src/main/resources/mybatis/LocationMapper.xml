@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uml.dao.LocationMapper">
+
+    <!-- 依据民宿id查找区名、市名、省名 -->
+    <!-- 区 -->
+    <select id="searchDistrictNameByListingId" parameterType="Integer" resultType="string">
+        SELECT name
+        FROM districts
+        WHERE id = (select district_id from listings where id = #{id})
+    </select>
+    <!-- 市 -->
+    <select id="searchCityNameByListingId" parameterType="Integer" resultType="string">
+    SELECT name
+    FROM cities
+    WHERE id = (select city_id
+                from districts
+                where id = (select district_id from listings where id = #{id}))
+    </select>
+    <!-- 省 -->
+    <select id="searchProvinceNameByListingId" parameterType="Integer" resultType="string">
+    SELECT name
+    FROM provinces
+    WHERE id = (select province_id
+                from cities
+                where id = (select city_id
+                            from districts
+                            where id = (select district_id from listings where id = #{id})));
+    </select>
+</mapper>

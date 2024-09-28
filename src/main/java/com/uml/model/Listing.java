@@ -15,4 +15,7 @@ public class Listing {
     private Timestamp created_at;
     private String location;
     private int score;
+    private String province_name;
+    private String city_name;
+    private String district_name;
 }
