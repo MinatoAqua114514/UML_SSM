@@ -15,7 +15,7 @@
 <table>
     <c:forEach var="listing" items="${listings}">
       <tr>
-        <td>${listing.id}</td>
+        <td><a href="${pageContext.request.contextPath}/listing/details/${listing.id}">${listing.id}</a></td>
         <td>${listing.title}</td>
         <td>${listing.description}</td>
         <td>${listing.location}</td>
