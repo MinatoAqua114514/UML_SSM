@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/listing")
 public class ListingController {
 
     @Autowired
@@ -35,8 +37,10 @@ public class ListingController {
 
     // 获取民宿的评分
     @GetMapping("/{id}/score")
-    public int getScoreByListingId(@PathVariable Integer id) {
-        return listingService.findScoreByListingId(id);
+    public ModelAndView getScoreByListingId(@PathVariable Integer id) {
+        ModelAndView mv = new ModelAndView("score");
+        mv.addObject("score", listingService.findScoreByListingId(id));
+        return mv;
     }
 
     //查询显示民宿详细信息

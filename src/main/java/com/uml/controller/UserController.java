@@ -19,7 +19,8 @@ import java.util.Objects;
 
 
 @Controller
-public class UserController {//i
+@RequestMapping("/user")
+public class UserController {
 
     @Autowired
     private UserService userService;
