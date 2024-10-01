@@ -20,5 +20,5 @@ public interface UserMapper {
     void insertUser(User user);
 
     // 用户名登录匹配密码
-    String findPasswordByUsername(@Param("username") String username);
+    User findUserByUsername(@Param("username") String username);
 }

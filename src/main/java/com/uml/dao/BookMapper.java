@@ -1,6 +1,5 @@
 package com.uml.dao;
 
-import com.uml.model.Book;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;

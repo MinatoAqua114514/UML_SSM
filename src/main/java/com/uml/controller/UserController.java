@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Objects;
 
 /**
@@ -63,13 +64,17 @@ public class UserController {
 
     // 用户登录
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ModelAndView login(HttpServletRequest request) {
+    public ModelAndView login(HttpServletRequest request, HttpSession session) {
         ModelAndView mv = new ModelAndView();
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         if (userService.checkUsernameExists(username) != 0) {
-            String truePassword = userService.findPasswordByUsername(username);
+            User user = userService.findUserByUsername(username);
+            String truePassword = user.getPassword();
             if (Objects.equals(truePassword, password)) {
+                Integer userId = user.getId();
+                session.setAttribute("userId", userId);
+                session.setAttribute("username", username);
                 mv.setViewName("index");
             } else {
                 mv.setViewName("login_error");

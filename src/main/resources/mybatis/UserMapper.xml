@@ -24,8 +24,8 @@
     </insert>
 
     <!-- 用户名登录匹配密码 -->
-    <select id="findPasswordByUsername" parameterType="string" resultType="string">
-        SELECT password
+    <select id="findUserByUsername" parameterType="string" resultType="com.uml.model.User">
+        SELECT *
         FROM users
         WHERE username = #{username}
     </select>

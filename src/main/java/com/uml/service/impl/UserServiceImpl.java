@@ -6,6 +6,8 @@ import com.uml.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author: JLChen
  * @since: 2024-09-26 12:11
@@ -43,8 +45,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String findPasswordByUsername(String username) {
-        return userMapper.findPasswordByUsername(username);
+    public User findUserByUsername(String username) {
+        return userMapper.findUserByUsername(username);
     }
 
 
