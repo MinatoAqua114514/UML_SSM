@@ -3,21 +3,25 @@
 <html>
 <head>
     <title>${listing.title}</title>
+</head>
+<body>
     <h3>${listing.title}</h3>
     <p>⭐${listing.score}分~${listing.price}元/日</p>
     <p>位置：${listing.location}</p>
     <h3>${listing.description}</h3>
     <table>
         <c:forEach var="evaluate" items="${evaluate}">
-            <tr>
-                <td>${evaluate.username}</td>
-                <td>${evaluate.score}分</td>
-                <td>${evaluate.content}</td>
-        </c:forEach>
+        <tr>
+            <td>${evaluate.username}</td>
+            <td>${evaluate.score}分</td>
+            <td>${evaluate.content}</td>
+            </c:forEach>
     </table>
 
-</head>
-<body>
-
+    <form action="${pageContext.request.contextPath}/listing/addBook/${listing.id}" method="post">
+        <input type="date" name="checkInDate" id="checkInDate" placeholder="入住时间：yyyy-mm-dd">
+        <input type="date" name="checkOutDate" id="checkOutDate" placeholder="退房时间：yyyy-mm-dd">
+        <button type="submit">预定</button>
+    </form>
 </body>
 </html>
