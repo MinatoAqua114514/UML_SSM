@@ -12,7 +12,7 @@ import java.util.List;
 public class EvaluateServiceImpl implements EvaluateService {
 
     @Autowired
-    EvaluateMapper evaluateMapper;
+    private EvaluateMapper evaluateMapper;
 
     @Override
     public List<Evaluate> getAllEvaluateByListingId(Integer listingId) {
