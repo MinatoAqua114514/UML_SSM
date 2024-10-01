@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uml.dao.BookMapper">
+    <insert id="insertBook" parameterType="com.uml.model.Book">
+        INSERT INTO book (user_id, listing_id, checkin_at, checkout_at, total_price)
+        VALUES (#{user_id}, #{listing_id}, #{checkin_at}, #{checkout_at}, #{total_price})
+    </insert>
+
+    <select id="findPriceByListingId" parameterType="Integer" resultType="Integer">
+        SELECT price
+        FROM listings
+        WHERE id = #{listingId}
+    </select>
+</mapper>
