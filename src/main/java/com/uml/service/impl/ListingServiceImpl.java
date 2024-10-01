@@ -55,9 +55,10 @@ public class ListingServiceImpl implements ListingService {
         //添加评分信息
         listing.setScore(listingMapper.findScoreByListingId(listing.getId()));
         //添加省市区名信息
-        listing.setProvince_name(locationMapper.searchProvinceNameByListingId(listing.getId()));
-        listing.setCity_name(locationMapper.searchCityNameByListingId(listing.getId()));
-        listing.setDistrict_name(locationMapper.searchDistrictNameByListingId(listing.getId()));
+        String province_name = locationMapper.searchProvinceNameByListingId(listing.getId());
+        String city_name = locationMapper.searchCityNameByListingId(listing.getId());
+        String district_name = locationMapper.searchDistrictNameByListingId(listing.getId());
+        listing.setLocation(province_name + " " + city_name + " " + district_name);
         return listing;
     }
 

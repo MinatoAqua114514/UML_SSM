@@ -71,7 +71,12 @@ public class ListingController {
         return ResponseEntity.badRequest().body(null);
     }
 
-    //获取民宿id跳转到详情界面
+    /*
+    * 获取民宿id跳转到详情界面
+    * Get listing by listingId
+    * Get mark score by listingId
+    * List of evaluate by listingId
+    */
     @RequestMapping("/details/{id}")
     public ModelAndView toDetails(@PathVariable Integer id) {
         //检验民宿是否存在
@@ -93,6 +98,7 @@ public class ListingController {
     }
 }
 
+// TODO Insert evaluate by Text, score, userID, listingID
 
 //关于前端页面获取民宿评分，例：
 //<div id="listing-score"></div>
