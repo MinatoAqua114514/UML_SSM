@@ -10,7 +10,7 @@
 
     <!-- 指定启动项目跳转界面-->
     <welcome-file-list>
-        <welcome-file>/WEB-INF/testjsp.jsp</welcome-file>
+        <welcome-file>/WEB-INF/main.jsp</welcome-file>
     </welcome-file-list>
 
     <!-- 配置Spring的监听器 -->
