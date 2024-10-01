@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 /**
@@ -24,6 +26,11 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @RequestMapping("/show_login")
+    public String showLogin() {
+        return "login";
+    }
 
     // 用户注册
     @RequestMapping(
@@ -49,22 +56,33 @@ public class UserController {
     }
 
     // 用户登录
-    @RequestMapping(
-            value = "/login",
-            method = RequestMethod.POST,
-            consumes = "application/json",
-            produces = "application/json"
-    )
-    public ResponseEntity<String> login(@RequestBody User user) {
-        if (userService.checkUsernameExists(user.getUsername()) != 0) {
-            String truePassword = userService.findPasswordByUsername(user.getUsername());
-            if (Objects.equals(truePassword, user.getPassword())) {
-                return ResponseEntity.ok("登录成功");
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ModelAndView login(HttpServletRequest request) {
+        ModelAndView mv = new ModelAndView();
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        if (userService.checkUsernameExists(username) != 0) {
+            String truePassword = userService.findPasswordByUsername(username);
+            if (Objects.equals(truePassword, password)) {
+                mv.setViewName("redirect:/listing/find_all_listings");
             } else {
-                return ResponseEntity.badRequest().body("密码错误");
+                mv.setViewName("login_error");
             }
         } else {
-            return ResponseEntity.badRequest().body("用户名不存在");
+            mv.setViewName("login_error");
         }
+        return mv;
     }
+//    public ResponseEntity<String> login(@RequestBody User user) {
+//        if (userService.checkUsernameExists(user.getUsername()) != 0) {
+//            String truePassword = userService.findPasswordByUsername(user.getUsername());
+//            if (Objects.equals(truePassword, user.getPassword())) {
+//                return ResponseEntity.ok("登录成功");
+//            } else {
+//                return ResponseEntity.badRequest().body("密码错误");
+//            }
+//        } else {
+//            return ResponseEntity.badRequest().body("用户名不存在");
+//        }
+//    }
 }
