@@ -34,4 +34,11 @@
         SELECT id, district_id, title, description, price, created_at
         FROM listings
     </select>
+
+    <!-- 通过id检查民宿是否已存在 -->
+    <select id="checkListingExists" parameterType="int" resultType="int">
+        SELECT COUNT(*)
+        FROM listings
+        WHERE id = #{id}
+    </select>
 </mapper>

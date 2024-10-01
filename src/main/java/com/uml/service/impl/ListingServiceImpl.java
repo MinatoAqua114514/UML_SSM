@@ -60,4 +60,13 @@ public class ListingServiceImpl implements ListingService {
         listing.setDistrict_name(locationMapper.searchDistrictNameByListingId(listing.getId()));
         return listing;
     }
+
+    @Override
+    public int checkListingExists(Integer id) {
+        if (listingMapper.checkListingExists(id) == 0) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
 }

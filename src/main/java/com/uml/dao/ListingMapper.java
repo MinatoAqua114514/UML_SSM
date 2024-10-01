@@ -18,4 +18,7 @@ public interface ListingMapper {
 
     //获取所有民宿信息，用户主页展示
     List<Listing> getAllListing();
+
+    //通过id检查民宿是否已存在
+    int checkListingExists(@Param("id") Integer id);
 }

@@ -1,6 +1,7 @@
 package com.uml.service;
 
 import com.uml.model.Listing;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,4 +18,7 @@ public interface ListingService {
 
     //获取所有民宿信息，用户主页展示
     List<Listing> getAllListing();
+
+    //通过id检查民宿是否已存在
+    int checkListingExists(Integer id);
 }
