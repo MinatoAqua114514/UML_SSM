@@ -99,6 +99,8 @@ INSERT INTO users (username, email, password)
 VALUES ('郑玉华', 'jun75@example.org', '67281588642982560658');
 INSERT INTO users (username, email, password)
 VALUES ('萧建', 'linwei@example.net', '15015770610738146530');
+INSERT INTO users (username, email, password)
+VALUES ('root', 'root@example.net', '111111');
 
 -- 省
 DROP TABLE IF EXISTS provinces;
@@ -210,6 +212,20 @@ INSERT INTO evaluate (user_id, listing_id, mark_id, content) VALUES
 (1, 2, 3, '非常浪漫的地方，值得推荐！'),
 (3, 3, 4, '一般般，期待改进。'),
 (2, 4, 5, '很不错的体验，适合家庭出游。');
+
+-- 预定表
+DROP TABLE IF EXISTS book;
+CREATE TABLE book
+(
+    id INT PRIMARY KEY AUTO_INCREMENT, -- 主键，自增预定ID
+    user_id    INT  NOT NULL,          -- 外键，用户ID
+    listing_id INT  NOT NULL,          -- 外键，民宿ID
+    checkin_at DATE NOT NULL,     -- 入住日期
+    checkout_at DATE NOT NULL,    -- 退房日期
+    total_price INT NOT NULL,          -- 预定总费用
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    FOREIGN KEY (listing_id) REFERENCES listings (id) ON DELETE CASCADE
+);
 
 -- 添加索引
 -- 用户表：为用户名和邮箱添加索引，因为这些字段可能会被用于登录查询
