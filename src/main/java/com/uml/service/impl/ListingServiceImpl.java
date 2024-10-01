@@ -21,8 +21,24 @@ public class ListingServiceImpl implements ListingService {
     @Override
     public List<Listing> searchListingByKeyOrDistrict(String key, String district) {
         List<Listing> listings = listingMapper.searchListingByKeyOrDistrict(key, district);
+        return getListingList(listings);
+    }
+
+    @Override
+    public List<Listing> getAllListing() {
+        List<Listing> listings = listingMapper.getAllListing();
+        return getListingList(listings);
+    }
+
+    private List<Listing> getListingList(List<Listing> listings) {
         for (Listing listing : listings) {
+            //添加民宿评分信息
             listing.setScore(listingMapper.findScoreByListingId(listing.getId()));
+            //添加民宿地区信息
+            String province_name = locationMapper.searchProvinceNameByListingId(listing.getId());
+            String city_name = locationMapper.searchCityNameByListingId(listing.getId());
+            String district_name = locationMapper.searchDistrictNameByListingId(listing.getId());
+            listing.setLocation(province_name + " " + city_name + " " + district_name);
         }
         return listings;
     }

@@ -15,4 +15,7 @@ public interface ListingMapper {
 
     //根据民宿ID获取民宿详细信息
     Listing searchDetailsByListingId(@Param("id") Integer id);
+
+    //获取所有民宿信息，用户主页展示
+    List<Listing> getAllListing();
 }

@@ -28,4 +28,10 @@
         FROM listings
         WHERE id = #{id}
     </select>
+
+    <!-- 获取所有民宿信息，用于主页展示 -->
+    <select id="getAllListing" resultType="com.uml.model.Listing">
+        SELECT id, district_id, title, description, price, created_at
+        FROM listings
+    </select>
 </mapper>
