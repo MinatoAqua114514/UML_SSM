@@ -39,6 +39,14 @@ public class ListingController {
         return ResponseEntity.badRequest().body(null);
     }
 
+    @RequestMapping("/find_all_listings")
+    public ModelAndView index() {
+        ModelAndView mav = new ModelAndView("index");
+        List<Listing> listings= listingService.getAllListing();
+        mav.addObject("listings",listings);
+        return mav;
+    }
+
     // 获取民宿的评分
     @GetMapping("/{id}/score")
     public ModelAndView getScoreByListingId(@PathVariable Integer id) {
