@@ -55,6 +55,12 @@ public class UserController {
         return ResponseEntity.ok("注册成功");
     }
 
+    //用于返回主页
+    @RequestMapping(value = "show_index", method = RequestMethod.GET)
+    public String showIndex() {
+        return "index";
+    }
+
     // 用户登录
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ModelAndView login(HttpServletRequest request) {
@@ -64,7 +70,7 @@ public class UserController {
         if (userService.checkUsernameExists(username) != 0) {
             String truePassword = userService.findPasswordByUsername(username);
             if (Objects.equals(truePassword, password)) {
-                mv.setViewName("redirect:/listing/find_all_listings");
+                mv.setViewName("index");
             } else {
                 mv.setViewName("login_error");
             }

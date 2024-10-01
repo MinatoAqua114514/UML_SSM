@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -23,28 +24,25 @@ public class ListingController {
     private EvaluateService evaluateService;
 
     //搜索、筛选民宿概要信息
-    @RequestMapping(
-            value = "/search",
-            method = RequestMethod.POST,
-            consumes = "application/json",
-            produces = "application/json"
-    )
-    public ResponseEntity<List<Listing>> search(@RequestBody Map<String, String> requestBody) {
-        String key = requestBody.get("key");
-        String district = requestBody.get("district");
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public ModelAndView search(HttpServletRequest request) {
+        ModelAndView mv = new ModelAndView();
+        String key = request.getParameter("key");
+        String district = request.getParameter("district");
         List<Listing> listings = listingService.searchListingByKeyOrDistrict(key, district);
         if (listings != null && !listings.isEmpty()) {
-            return ResponseEntity.ok(listings);
+            mv.addObject("listings", listings);
+            mv.setViewName("search_result");
         }
-        return ResponseEntity.badRequest().body(null);
+        return mv;
     }
 
     @RequestMapping("/find_all_listings")
     public ModelAndView index() {
-        ModelAndView mav = new ModelAndView("index");
+        ModelAndView mv = new ModelAndView("listings_commend");
         List<Listing> listings= listingService.getAllListing();
-        mav.addObject("listings",listings);
-        return mav;
+        mv.addObject("listings",listings);
+        return mv;
     }
 
     // 获取民宿的评分
@@ -90,7 +88,7 @@ public class ListingController {
         //获取评论区信息
         List<Evaluate> evaluate = evaluateService.getAllEvaluateByListingId(id);
 
-        ModelAndView detailListing = new ModelAndView("listing");
+        ModelAndView detailListing = new ModelAndView("listing_detail");
         detailListing.addObject("listing", listing);
         detailListing.addObject("evaluate", evaluate);
 
