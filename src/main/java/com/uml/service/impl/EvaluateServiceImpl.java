@@ -18,4 +18,13 @@ public class EvaluateServiceImpl implements EvaluateService {
     public List<Evaluate> getAllEvaluateByListingId(Integer listingId) {
         return evaluateMapper.getAllEvaluateByListingId(listingId);
     }
+
+    @Override
+    public void insertEvaluate(Evaluate evaluate) {
+        Integer userId = evaluate.getUserId();
+        Integer listingId = evaluate.getListingId();
+        Integer markId = evaluate.getMarkId();
+        String content = evaluate.getContent();
+        evaluateMapper.insertEvaluate(userId, listingId, markId, content);
+    }
 }

@@ -3,9 +3,11 @@ package com.uml.controller;
 import com.uml.model.Book;
 import com.uml.model.Evaluate;
 import com.uml.model.Listing;
+import com.uml.model.Mark;
 import com.uml.service.BookService;
 import com.uml.service.EvaluateService;
 import com.uml.service.ListingService;
+import com.uml.service.MarkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+
 @Controller
 @RequestMapping("/listing")
 public class ListingController {
@@ -31,6 +34,8 @@ public class ListingController {
     private EvaluateService evaluateService;
     @Autowired
     private BookService bookService;
+    @Autowired
+    private MarkService markService;
 
     //搜索、筛选民宿概要信息
     @RequestMapping(value = "/search", method = RequestMethod.POST)
@@ -128,7 +133,7 @@ public class ListingController {
             Date checkInDate = sdf.parse(checkInDateStr);
             Date checkOutDate = sdf.parse(checkOutDateStr);
 
-            // TODO 对日期进行校验
+            // 对日期进行校验
             if (checkOutDate.before(checkInDate)) {
                 // 退房日期早于入住日期，重定向到错误页面
                 mv = new ModelAndView("redirect:/errorPage");
@@ -157,6 +162,50 @@ public class ListingController {
             // 日期格式错误处理
             mv = new ModelAndView("redirect:/errorPage");
         }
+        return mv;
+    }
+
+    // 提交用户评论
+    @RequestMapping(value = "/addEvaluate/{listingId}", method = RequestMethod.POST)
+    public ModelAndView addEvaluate(@PathVariable("listingId") Integer listingId, HttpServletRequest request, HttpSession session){
+        ModelAndView mv;
+        // 未登录
+        if (session.getAttribute("userId") == null) {
+            mv = new ModelAndView("redirect:/login");
+            return mv;
+        }
+        // 获取参数
+        Integer userId = (Integer) session.getAttribute("userId");
+        String username = (String) session.getAttribute("username");
+        String content = request.getParameter("content");
+
+        // 处理参数
+        Evaluate evaluate = new Evaluate();
+        evaluate.setUserId(userId);
+        evaluate.setUsername(username);
+        evaluate.setListingId(listingId);
+        evaluate.setContent(content);
+
+        // 如果用户做过评分,则在用户的评价中加入评分信息
+        Mark mark = markService.findMarkByUserIdAndListingId(userId, listingId);
+        if (mark != null && mark.getId() != null){  // 确保 mark 和 mark.getId() 都不为 null
+            int score = mark.getScore();
+            evaluate.setScore(score);
+            evaluate.setMarkId(mark.getId());
+        }
+
+        try {
+            evaluateService.insertEvaluate(evaluate);
+        } catch (Exception e) {
+            // 处理异常，例如记录日志或返回错误信息
+            e.printStackTrace();
+            mv = new ModelAndView("404"); // 假设有一个错误页面
+            mv.addObject("message", "无法提交评价，请稍后再试。");
+            return mv;
+        }
+
+        mv = new ModelAndView("redirect:/listing/details/" + listingId);
+
         return mv;
     }
 }

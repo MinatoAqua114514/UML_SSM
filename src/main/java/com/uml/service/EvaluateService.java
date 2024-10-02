@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface EvaluateService {
     List<Evaluate> getAllEvaluateByListingId(Integer listingId);
+    void insertEvaluate(Evaluate evaluate);
 }

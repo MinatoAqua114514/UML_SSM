@@ -23,5 +23,11 @@
         <input type="date" name="checkOutDate" id="checkOutDate" placeholder="退房时间：yyyy-mm-dd">
         <button type="submit">预定</button>
     </form>
+
+    <form action="${pageContext.request.contextPath}/listing/addEvaluate/${listing.id}" method="post">
+        <input type="text" name="content" id="content" placeholder="评论">
+        <button type="submit">提交评论</button>
+    </form>
+
 </body>
 </html>

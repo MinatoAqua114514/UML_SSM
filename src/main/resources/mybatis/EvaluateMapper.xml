@@ -4,18 +4,23 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.uml.dao.EvaluateMapper">
     <select id="getAllEvaluateByListingId" parameterType="int" resultType="com.uml.model.Evaluate">
-        select evaluate.id,
+        SELECT evaluate.id,
                evaluate.user_id,
                evaluate.listing_id,
                evaluate.mark_id,
                users.username,
                mark.score,
                evaluate.content
-        from evaluate
+        FROM evaluate
                  LEFT JOIN users on evaluate.user_id = users.id
                  LEFT JOIN mark on mark.id = evaluate.mark_id
         WHERE evaluate.listing_id = #{listing_id}
-        group by evaluate.id
-        order by evaluate.id desc
+        GROUP BY evaluate.id
+        ORDER BY  evaluate.id DESC
     </select>
+
+    <insert id="insertEvaluate" parameterType="com.uml.model.Evaluate">
+        INSERT INTO evaluate (user_id, listing_id, mark_id, content)
+        VALUES (#{userId}, #{listingId}, #{markId}, #{content})
+    </insert>
 </mapper>

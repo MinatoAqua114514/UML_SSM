@@ -13,5 +13,5 @@ public class Evaluate {
     private String content;
     private Integer score;
     private String username;
-    private Listing listing;
+    //    private Listing listing;
 }
