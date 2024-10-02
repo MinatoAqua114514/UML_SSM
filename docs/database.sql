@@ -178,7 +178,7 @@ CREATE TABLE mark
     id         INT PRIMARY KEY AUTO_INCREMENT, -- 主键，自增评分ID
     user_id    INT     NOT NULL,               -- 外键，用户ID
     listing_id INT     NOT NULL,               -- 外键，民宿ID
-    score      TINYINT NOT NULL,               -- 评分分数
+    score      TINYINT DEFAULT NULL,               -- 评分分数
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     FOREIGN KEY (listing_id) REFERENCES listings (id) ON DELETE CASCADE
 );
@@ -198,7 +198,7 @@ CREATE TABLE evaluate
     id         INT PRIMARY KEY AUTO_INCREMENT, -- 主键，自增评价ID
     user_id    INT  NOT NULL,                  -- 外键，用户ID
     listing_id INT  NOT NULL,                  -- 外键，民宿ID
-    mark_id    INT  NOT NULL,                  -- 外键，评分ID
+    mark_id    INT  DEFAULT NULL,                  -- 外键，评分ID
     content    TEXT NOT NULL,                  -- 评价内容
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     FOREIGN KEY (listing_id) REFERENCES listings (id) ON DELETE CASCADE,
