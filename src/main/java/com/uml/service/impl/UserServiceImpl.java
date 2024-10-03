@@ -5,6 +5,7 @@ import com.uml.model.User;
 import com.uml.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -48,7 +49,11 @@ public class UserServiceImpl implements UserService {
         return userMapper.findUserByUsername(username);
     }
 
+    /**
+     * 事务管理 - 方法级别
+     */
     @Override
+    @Transactional
     public void updateUser(User user) {
         Integer userId = user.getId();
         String username = user.getUsername();

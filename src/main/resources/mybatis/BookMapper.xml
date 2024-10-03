@@ -3,14 +3,30 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.uml.dao.BookMapper">
+    <!-- 用户提交预定 -->
     <insert id="insertBook" parameterType="com.uml.model.Book">
         INSERT INTO book (user_id, listing_id, checkin_at, checkout_at, total_price)
         VALUES (#{user_id}, #{listing_id}, #{checkin_at}, #{checkout_at}, #{total_price})
     </insert>
 
+    <!-- 预定时获取民宿价格 -->
     <select id="findPriceByListingId" parameterType="Integer" resultType="Integer">
         SELECT price
         FROM listings
         WHERE id = #{listingId}
+    </select>
+
+    <!-- 用户获取预定成功的信息 -->
+    <select id="findBookByUserId" parameterType="Integer" resultType="com.uml.model.Book">
+        SELECT *
+        FROM book
+        WHERE user_id = #{userId}
+    </select>
+
+    <!-- 查看用户是否预定过该民宿 -->
+    <select id="checkBookExists" parameterType="map" resultType="Integer">
+        SELECT COUNT(*)
+        FROM book
+        WHERE user_id = #{userId} AND listing_id = #{listingId}
     </select>
 </mapper>

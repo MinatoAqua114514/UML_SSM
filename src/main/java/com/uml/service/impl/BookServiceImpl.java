@@ -29,4 +29,13 @@ public class BookServiceImpl implements BookService {
         return bookMapper.findPriceByListingId(listingId);
     }
 
+    @Override
+    public Book findBookByUserId(Integer userId) {
+        return bookMapper.findBookByUserId(userId);
+    }
+
+    @Override
+    public Integer checkBookExists(Integer userId, Integer listingId) {
+        return bookMapper.checkBookExists(userId, listingId);
+    }
 }
