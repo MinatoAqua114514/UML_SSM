@@ -208,6 +208,42 @@ public class ListingController {
 
         return mv;
     }
+
+    /**
+     * 用户提交民宿的评分
+     *
+     */
+    @RequestMapping(value = "/addMark/{listingId}", method = RequestMethod.POST)
+    public ModelAndView addMark(@PathVariable("listingId") Integer listingId, Integer score, HttpServletRequest request, HttpSession session) {
+        ModelAndView mv;
+        // 未登录
+        if (session.getAttribute("userId") == null) {
+            mv = new ModelAndView("redirect:/login");
+            return mv;
+        }
+        // 处理参数
+        Integer userId = (Integer) session.getAttribute("userId");
+        Mark mark = new Mark();
+        if (score > 0 && score <= 5) {
+            mark.setUserId(userId);
+            mark.setListingId(listingId);
+            mark.setScore(score);
+        }
+
+        try {
+            markService.insertMark(mark);
+        } catch (Exception e) {
+            // 处理异常，例如记录日志或返回错误信息
+            e.printStackTrace();
+            mv = new ModelAndView("404"); // 假设有一个错误页面
+            mv.addObject("message", "无法提交评分，请稍后再试。");
+            return mv;
+        }
+
+        mv = new ModelAndView("redirect:/listing/details/" + listingId);
+
+        return mv;
+    }
 }
 
 

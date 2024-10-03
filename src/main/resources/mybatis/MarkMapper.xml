@@ -8,4 +8,9 @@
         FROM mark
         WHERE mark.user_id = #{userId} AND mark.listing_id = #{listingId}
     </select>
+
+    <insert id="insertMark" parameterType="com.uml.model.Mark">
+        INSERT INTO mark (user_id, listing_id, score)
+        VALUES (#{userId}, #{listingId}, #{score})
+    </insert>
 </mapper>

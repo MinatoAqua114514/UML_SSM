@@ -15,4 +15,11 @@ public class MarkServiceImpl implements MarkService {
     public Mark findMarkByUserIdAndListingId(Integer userId, Integer listingId) {
         return markMapper.findMarkByUserIdAndListingId(userId, listingId);
     }
+
+    public void insertMark(Mark mark) {
+        Integer userId = mark.getUserId();
+        Integer listingId = mark.getListingId();
+        Integer score = mark.getScore();
+        markMapper.insertMark(userId, listingId, score);
+    }
 }

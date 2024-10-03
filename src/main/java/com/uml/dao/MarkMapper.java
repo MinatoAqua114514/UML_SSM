@@ -5,4 +5,5 @@ import org.apache.ibatis.annotations.Param;
 
 public interface MarkMapper {
     Mark findMarkByUserIdAndListingId(@Param("userId") Integer userId, @Param("listingId") Integer listingId);
+    void insertMark(@Param("userId") Integer userId, @Param("listingId") Integer listingId, @Param("score") Integer score);
 }
