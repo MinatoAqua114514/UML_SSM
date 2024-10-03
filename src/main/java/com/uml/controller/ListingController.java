@@ -47,6 +47,8 @@ public class ListingController {
         if (listings != null && !listings.isEmpty()) {
             mv.addObject("listings", listings);
             mv.setViewName("search_result");
+        } else {
+            mv.setViewName("404");
         }
         return mv;
     }

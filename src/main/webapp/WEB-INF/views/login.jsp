@@ -8,15 +8,17 @@
     <title>用户登入</title>
 </head>
 <body>
-    <div>欢迎登录！</div>
-    <form onsubmit="handleLogin(event)">
-        <label>
-            <input type="text" id="username" placeholder="输入您的用户名" required>
-        </label>
-        <label>
-            <input type="password" id="password" placeholder="输入您的密码" required>
-        </label>
-        <button type="submit">登  录</button>
-    </form>
+<div class="header">欢迎登录！</div>
+<form action="${pageContext.request.contextPath}/user/login" method="POST">
+    <label>
+        <input type="text" name="username" placeholder="输入您的账号" required>
+    </label>
+    <label>
+        <input type="password" name="password" placeholder="输入您的密码" required>
+    </label>
+    <button type="submit">
+        登  录
+    </button>
+</form>
 </body>
 </html>

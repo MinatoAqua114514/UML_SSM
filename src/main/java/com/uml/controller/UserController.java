@@ -67,7 +67,7 @@ public class UserController {
     }
 
     //用于返回主页
-    @RequestMapping(value = "show_index", method = RequestMethod.GET)
+    @RequestMapping(value = "/show_index", method = RequestMethod.GET)
     public String showIndex() {
         return "index";
     }
