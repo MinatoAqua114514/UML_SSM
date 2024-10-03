@@ -6,7 +6,6 @@ import com.uml.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 /**
  * @author: JLChen
@@ -49,5 +48,25 @@ public class UserServiceImpl implements UserService {
         return userMapper.findUserByUsername(username);
     }
 
+    @Override
+    public void updateUser(User user) {
+        Integer userId = user.getId();
+        String username = user.getUsername();
+        String email = user.getEmail();
+        userMapper.updateUser(userId, username, email);
+    }
 
+    @Override
+    public Integer checkUserExists(Integer userId) {
+        if (userMapper.checkUserExists(userId) == 0) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    @Override
+    public User findUserById(Integer userId) {
+        return userMapper.findUserById(userId);
+    }
 }

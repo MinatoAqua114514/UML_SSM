@@ -14,4 +14,13 @@ public interface UserService {
 
     // 用户名登录匹配密码
     User findUserByUsername(String username);
+
+    // 更新用户的个人信息
+    void updateUser(User user);
+
+    // 检查用户是否已存在
+    Integer checkUserExists(Integer userId);
+
+    // 用户ID获取用户信息
+    User findUserById(Integer userId);
 }

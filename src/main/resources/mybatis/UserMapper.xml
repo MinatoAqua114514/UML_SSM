@@ -30,4 +30,25 @@
         WHERE username = #{username}
     </select>
 
+    <!-- 更新用户的个人信息 -->
+    <update id="updateUser" parameterType="com.uml.model.User">
+        UPDATE users
+        SET username = #{username}, email = #{email}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 检查用户是否已存在 -->
+    <select id="checkUserExists" parameterType="Integer" resultType="Integer">
+        SELECT COUNT(*)
+        FROM users
+        WHERE id = #{id}
+    </select>
+
+    <!-- 用户ID获取用户信息 -->
+    <select id="findUserById" parameterType="Integer" resultType="com.uml.model.User">
+        SELECT *
+        FROM users
+        WHERE id = #{id}
+    </select>
+
 </mapper>
