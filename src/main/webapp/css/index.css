@@ -38,8 +38,17 @@ iframe {
     color: white;
     text-decoration: none;
 }
-.gui-button {
-
+.gui-item-left {
+    color: white;
+    text-align: left;
+    flex: 1;
+    cursor: pointer;
+}
+.gui-item-right {
+    color: white;
+    text-align: right;
+    flex: 1;
+    cursor: pointer;
 }
 .back-button {
     color: white;

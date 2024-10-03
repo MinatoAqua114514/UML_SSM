@@ -10,4 +10,12 @@ public interface LocationMapper {
 
     String searchProvinceNameByListingId(@Param("id") Integer id);
 
+    // 查找所有省
+    String findAllProvinces();
+
+    // 依据省名查找市名
+    String findAllCitiesOfProvince(@Param("province_name") String province_name);
+
+    // 依据市名查找区名
+    String findAllDistrictsOfCity(@Param("city_name") String city_name);
 }

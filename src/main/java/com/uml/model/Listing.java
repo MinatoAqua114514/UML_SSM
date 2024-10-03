@@ -13,9 +13,6 @@ public class Listing {
     private String description;
     private Integer price;
     private Timestamp created_at;
-    private String location;
+    private Location location;
     private int score;
-    private String province_name;
-    private String city_name;
-    private String district_name;
 }

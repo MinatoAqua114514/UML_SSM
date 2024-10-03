@@ -29,4 +29,26 @@
                             from districts
                             where id = (select district_id from listings where id = #{id})));
     </select>
+
+    <!-- 查找所有省 -->
+    <select id="findAllProvinces" resultType="string">
+        SELECT name
+        FROM provinces
+    </select>
+    <!-- 依据省名查找市名 -->
+    <select id="findAllCitiesOfProvince" parameterType="string" resultType="string">
+        SELECT name
+        FROM cities
+        WHERE province_id = (select id
+                             from provinces
+                             where name = #{province_name})
+    </select>
+    <!-- 依据市名查找区名 -->
+    <select id="findAllDistrictsOfCity" parameterType="string" resultType="string">
+        SELECT name
+        FROM districts
+        WHERE city_id = (select id
+                             from cities
+                             where name = #{city_name})
+    </select>
 </mapper>

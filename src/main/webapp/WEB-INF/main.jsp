@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="header">欢迎登录！</div>
-<form action="user/login" method="POST">
+<form action="${pageContext.request.contextPath}/user/login" method="POST">
     <label>
         <input type="text" name="username" placeholder="输入您的账号" required>
     </label>

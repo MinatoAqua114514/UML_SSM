@@ -7,7 +7,7 @@
 <body>
     <h3>${listing.title}</h3>
     <p>⭐${listing.score}分~${listing.price}元/日</p>
-    <p>位置：${listing.location}</p>
+    <p>位置：${listing.location.province_name} ${listing.location.city_name} ${listing.location.district_name}</p>
     <h3>${listing.description}</h3>
     <table>
         <c:forEach var="evaluate" items="${evaluate}">

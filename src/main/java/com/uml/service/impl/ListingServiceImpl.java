@@ -3,6 +3,7 @@ package com.uml.service.impl;
 import com.uml.dao.ListingMapper;
 import com.uml.dao.LocationMapper;
 import com.uml.model.Listing;
+import com.uml.model.Location;
 import com.uml.service.ListingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,10 +36,11 @@ public class ListingServiceImpl implements ListingService {
             //添加民宿评分信息
             listing.setScore(listingMapper.findScoreByListingId(listing.getId()));
             //添加民宿地区信息
-            String province_name = locationMapper.searchProvinceNameByListingId(listing.getId());
-            String city_name = locationMapper.searchCityNameByListingId(listing.getId());
-            String district_name = locationMapper.searchDistrictNameByListingId(listing.getId());
-            listing.setLocation(province_name + " " + city_name + " " + district_name);
+            Location location = new Location();
+            location.setProvince_name(locationMapper.searchProvinceNameByListingId(listing.getId()));
+            location.setCity_name(locationMapper.searchCityNameByListingId(listing.getId()));
+            location.setDistrict_name(locationMapper.searchDistrictNameByListingId(listing.getId()));
+            listing.setLocation(location);
         }
         return listings;
     }
@@ -55,10 +57,9 @@ public class ListingServiceImpl implements ListingService {
         //添加评分信息
         listing.setScore(listingMapper.findScoreByListingId(listing.getId()));
         //添加省市区名信息
-        String province_name = locationMapper.searchProvinceNameByListingId(listing.getId());
-        String city_name = locationMapper.searchCityNameByListingId(listing.getId());
-        String district_name = locationMapper.searchDistrictNameByListingId(listing.getId());
-        listing.setLocation(province_name + " " + city_name + " " + district_name);
+        listing.getLocation().setProvince_name(locationMapper.searchProvinceNameByListingId(listing.getId()));
+        listing.getLocation().setCity_name(locationMapper.searchCityNameByListingId(listing.getId()));
+        listing.getLocation().setDistrict_name(locationMapper.searchDistrictNameByListingId(listing.getId()));
         return listing;
     }
 
