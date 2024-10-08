@@ -5,13 +5,9 @@ import com.uml.dao.LocationMapper;
 import com.uml.model.Listing;
 import com.uml.model.Location;
 import com.uml.service.ListingService;
-import com.uml.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class ListingServiceImpl implements ListingService {
@@ -48,14 +44,7 @@ public class ListingServiceImpl implements ListingService {
 
     private List<Listing> getListingList(List<Listing> listings) {
         for (Listing listing : listings) {
-            //添加民宿评分信息
-            listing.setScore(listingMapper.findScoreByListingId(listing.getId()));
-            //添加民宿地区信息
-            Location location = new Location();
-            location.setProvince_name(locationMapper.searchProvinceNameByListingId(listing.getId()));
-            location.setCity_name(locationMapper.searchCityNameByListingId(listing.getId()));
-            location.setDistrict_name(locationMapper.searchDistrictNameByListingId(listing.getId()));
-            listing.setLocation(location);
+            setScoreAndLocation(listing);
         }
         return listings;
     }
@@ -69,10 +58,18 @@ public class ListingServiceImpl implements ListingService {
     public Listing searchDetailsByListingId(Integer id) {
         //查询详细信息
         Listing listing = listingMapper.searchDetailsByListingId(id);
+        return setScoreAndLocation(listing);
+    }
+
+    public Listing setScoreAndLocation(Listing listing) {
+        Integer id = listing.getId();
         //添加评分信息
-        listing.setScore(listingMapper.findScoreByListingId(listing.getId()));
+        listing.setScore(listingMapper.findScoreByListingId(id));
         //添加省市区名信息
-        Location location = locationMapper.searchLocationByListingId(listing.getId());
+        Location location = new Location();
+        location.setProvince_name(locationMapper.searchProvinceNameByListingId(id));
+        location.setCity_name(locationMapper.searchCityNameByListingId(id));
+        location.setDistrict_name(locationMapper.searchDistrictNameByListingId(id));
         listing.setLocation(location);
         return listing;
     }
