@@ -7,8 +7,20 @@ import java.util.List;
 
 public interface ListingMapper {
 
-    //根据用户输入或筛选查询民宿
-    List<Listing> searchListingByKeyOrDistrict(@Param("key") String key, @Param("district") String district);
+    //根据区名或民宿昵称查询民宿
+    List<Listing> searchListingByKeyOrDistrict(@Param("province") String province,
+                                               @Param("city") String city,
+                                               @Param("district") String district,
+                                               @Param("key") String key);
+
+    //根据市名或民宿昵称查询民宿
+    List<Listing> searchListingByKeyOrCity(@Param("province") String province,
+                                               @Param("city") String city,
+                                               @Param("key") String key);
+
+    //根据省名或民宿昵称查询民宿
+    List<Listing> searchListingByKeyOrProvince(@Param("province") String province,
+                                               @Param("key") String key);
 
     //根据民宿ID获取民宿评分平均值
     int findScoreByListingId(@Param("id") Integer id);

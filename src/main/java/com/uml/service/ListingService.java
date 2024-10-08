@@ -6,8 +6,14 @@ import java.util.List;
 
 public interface ListingService {
 
-    //根据用户输入或筛选查询民宿
-    List<Listing> searchListingByKeyOrDistrict(String key, String district);
+    //根据区名或民宿昵称查询民宿
+    List<Listing> searchListingByKeyOrDistrict(String province, String city, String district, String key);
+
+    //根据市名或民宿昵称查询民宿
+    List<Listing> searchListingByKeyOrCity(String province, String city, String key);
+
+    //根据省名或民宿昵称查询民宿
+    List<Listing> searchListingByKeyOrProvince(String province, String key);
 
     //根据民宿ID获取民宿评分平均值
     int findScoreByListingId(Integer id);

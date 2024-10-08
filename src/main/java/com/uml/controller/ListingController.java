@@ -11,6 +11,7 @@ import com.uml.service.MarkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -39,17 +40,35 @@ public class ListingController {
 
     //搜索、筛选民宿概要信息
     @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public ModelAndView search(HttpServletRequest request) {
+    public ModelAndView search(String province, String city, String district,String key) {
+
         ModelAndView mv = new ModelAndView();
-        String key = request.getParameter("key");
-        String district = request.getParameter("district");
-        List<Listing> listings = listingService.searchListingByKeyOrDistrict(key, district);
+
+        // 当不提供筛选信息时，返回主页显示所有民宿结果
+        if(StringUtils.isEmpty(province) && StringUtils.isEmpty(key)) {
+            mv.setViewName("index");
+            return mv;
+        }
+
+        List<Listing> listings = null;
+
+        // 用户通过筛选地区和民宿名称进行搜索
+        if (StringUtils.isEmpty(city)) {
+            listings = listingService.searchListingByKeyOrProvince(province, key);
+        } else if (StringUtils.isEmpty(district)) {
+            listings = listingService.searchListingByKeyOrCity(province, city, key);
+        } else {
+            listings = listingService.searchListingByKeyOrDistrict(province, city, district, key);
+        }
+
         if (listings != null && !listings.isEmpty()) {
             mv.addObject("listings", listings);
             mv.setViewName("search_result");
         } else {
+            mv.addObject("error", "搜索失败");
             mv.setViewName("404");
         }
+
         return mv;
     }
 
@@ -60,14 +79,6 @@ public class ListingController {
         mv.addObject("listings",listings);
         return mv;
     }
-
-    // 获取民宿的评分（测试）
-    //    @GetMapping("/{id}/score")
-    //    public ModelAndView getScoreByListingId(@PathVariable Integer id) {
-    //        ModelAndView mv = new ModelAndView("score");
-    //        mv.addObject("score", listingService.findScoreByListingId(id));
-    //        return mv;
-    //    }
 
     //查询显示民宿详细信息
     @RequestMapping(
@@ -182,6 +193,11 @@ public class ListingController {
         String content = request.getParameter("content");
 
         // 处理参数
+        // 用户需预定居住过民宿，才可以评价
+        if (bookService.checkBookExists(userId, listingId) == 0) {
+            mv = new ModelAndView("404"); // 假设有一个错误页面
+            mv.addObject("message", "请先预定该民宿。");
+        }
         Evaluate evaluate = new Evaluate();
         evaluate.setUserId(userId);
         evaluate.setUsername(username);
@@ -225,6 +241,11 @@ public class ListingController {
         }
         // 处理参数
         Integer userId = (Integer) session.getAttribute("userId");
+        // 用户需预定居住过民宿，才可以评分
+        if (bookService.checkBookExists(userId, listingId) == 0) {
+            mv = new ModelAndView("404"); // 假设有一个错误页面
+            mv.addObject("message", "请先预定该民宿。");
+        }
         Mark mark = new Mark();
         if (score > 0 && score <= 5) {
             mark.setUserId(userId);

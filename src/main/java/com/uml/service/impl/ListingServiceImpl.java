@@ -5,10 +5,13 @@ import com.uml.dao.LocationMapper;
 import com.uml.model.Listing;
 import com.uml.model.Location;
 import com.uml.service.ListingService;
+import com.uml.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ListingServiceImpl implements ListingService {
@@ -20,14 +23,26 @@ public class ListingServiceImpl implements ListingService {
 
 
     @Override
-    public List<Listing> searchListingByKeyOrDistrict(String key, String district) {
-        List<Listing> listings = listingMapper.searchListingByKeyOrDistrict(key, district);
+    public List<Listing> getAllListing() {
+        List<Listing> listings = listingMapper.getAllListing();
         return getListingList(listings);
     }
 
     @Override
-    public List<Listing> getAllListing() {
-        List<Listing> listings = listingMapper.getAllListing();
+    public List<Listing> searchListingByKeyOrDistrict(String province, String city, String district, String key) {
+        List<Listing> listings = listingMapper.searchListingByKeyOrDistrict(province, city, district, key);
+        return getListingList(listings);
+    }
+
+    @Override
+    public List<Listing> searchListingByKeyOrCity(String province, String city ,String key) {
+        List<Listing> listings = listingMapper.searchListingByKeyOrCity(province, city, key);
+        return getListingList(listings);
+    }
+
+    @Override
+    public List<Listing> searchListingByKeyOrProvince(String province, String key) {
+        List<Listing> listings = listingMapper.searchListingByKeyOrProvince(province, key);
         return getListingList(listings);
     }
 
@@ -57,9 +72,8 @@ public class ListingServiceImpl implements ListingService {
         //添加评分信息
         listing.setScore(listingMapper.findScoreByListingId(listing.getId()));
         //添加省市区名信息
-        listing.getLocation().setProvince_name(locationMapper.searchProvinceNameByListingId(listing.getId()));
-        listing.getLocation().setCity_name(locationMapper.searchCityNameByListingId(listing.getId()));
-        listing.getLocation().setDistrict_name(locationMapper.searchDistrictNameByListingId(listing.getId()));
+        Location location = locationMapper.searchLocationByListingId(listing.getId());
+        listing.setLocation(location);
         return listing;
     }
 

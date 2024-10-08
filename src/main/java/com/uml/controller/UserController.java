@@ -35,21 +35,6 @@ public class UserController {
     //添加日志    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 
-    //用于返回登录页面
-    @RequestMapping("/show_login")
-    public String showLogin() {
-        return "login";
-    }
-
-
-
-    //用于返回主页
-    @RequestMapping(value = "/show_index", method = RequestMethod.GET)
-    public String showIndex() {
-        return "index";
-    }
-
-
 
     /**
      * 用户注册功能(2024/10/04)
@@ -68,32 +53,32 @@ public class UserController {
 
         // 输入格式校验
         if (isValidUsername(username)) {
-            mv.addObject("usernameError", "用户名格式不正确。");
+            mv.addObject("error", "用户名格式不正确。");
             mv.setViewName("register");
             return mv;
         }
 
         if (isValidEmail(email)) {
-            mv.addObject("emailError", "邮箱格式不正确。");
+            mv.addObject("error", "邮箱格式不正确。");
             mv.setViewName("register");
             return mv;
         }
 
         if (isValidPassword(password)) {
-            mv.addObject("passwordError", "密码格式不正确。");
+            mv.addObject("error", "密码格式不正确。");
             mv.setViewName("register");
             return mv;
         }
 
         // 检查用户名或邮箱是否已存在
         if (userService.checkUsernameExists(username) > 0) {
-            mv.addObject("usernameError", "用户名已存在，请重新提交。");
+            mv.addObject("error", "用户名已存在，请重新提交。");
             mv.setViewName("register");
             return mv;
         }
 
         if (userService.checkEmailExists(email) > 0) {
-            mv.addObject("emailError", "邮箱已存在，请重新提交。");
+            mv.addObject("error", "邮箱已存在，请重新提交。");
             mv.setViewName("register");
             return mv;
         }
@@ -110,14 +95,14 @@ public class UserController {
             userService.insertUser(user);
         } catch (DataAccessException dae) {
             // 数据库操作异常 logger.error("数据库访问异常: ", dae);
-            mv.addObject("registrationError", "注册失败，请稍后再试。");
+            mv.addObject("error", "注册失败，请稍后再试。");
             mv.setViewName("register");
             return mv;
         }
 
         // 注册成功，返回注册成功的提示信息，跳转登录页面
-        mv.addObject("successMessage", "注册成功！");
-        mv.setViewName("login");
+        mv.addObject("success", "注册成功！");
+        mv.setViewName("register");
         return mv;
     }
 
@@ -140,13 +125,13 @@ public class UserController {
 
         // 输入格式校验
         if (isValidUsername(username)) {
-            mv.addObject("usernameError", "用户名格式不正确。");
+            mv.addObject("error", "用户名格式不正确。");
             mv.setViewName("login");
             return mv;
         }
 
         if (isValidPassword(password)) {
-            mv.addObject("passwordError", "密码格式不正确。");
+            mv.addObject("error", "密码格式不正确。");
             mv.setViewName("login");
             return mv;
         }
@@ -161,24 +146,25 @@ public class UserController {
                     Integer userId = user.getId();
                     session.setAttribute("userId", userId);
                     session.setAttribute("username", username);
+                    mv.addObject("success", "登录成功");
                     mv.setViewName("index");
                 } else {
                     // 密码错误
-                    mv.addObject("message", "密码错误");
+                    mv.addObject("error", "密码错误");
                     mv.setViewName("login");
                 }
             } else {
                 // 用户不存在
-                mv.addObject("message", "用户不存在");
+                mv.addObject("error", "用户不存在");
                 mv.setViewName("login");
             }
+            return mv;
         } catch (DataAccessException dae) {
             // 数据库操作异常 logger.error("数据库访问异常: ", dae);
-            mv.addObject("loginError", "登录失败，请稍后再试。");
+            mv.addObject("error", "登录失败，请稍后再试。");
             mv.setViewName("login");
+            return mv;
         }
-
-        return mv;
     }
 
 
@@ -311,17 +297,20 @@ public class UserController {
      */
     private boolean isValidUsername(String username) {
         // 实现用户名格式校验逻辑，如正则匹配
-        return username == null || !username.matches("^[a-zA-Z0-9]{5,20}$");
+        //return username == null || !username.matches("^[a-zA-Z0-9]{5,20}$");
+        return false;
     }
 
     private boolean isValidEmail(String email) {
         // 实现邮箱格式校验逻辑，如正则匹配
-        return email == null || !email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
+        //return email == null || !email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
+        return false;
     }
 
     private boolean isValidPassword(String password) {
         // 实现密码格式校验逻辑，如长度和字符要求
-        return password == null || password.length() < 8;
+        //return password == null || password.length() < 8;
+        return false;
     }
 
     /**

@@ -4,19 +4,41 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.uml.dao.ListingMapper">
 
-    <!-- 根据用户输入和筛选条件查询民宿 -->
-    <select id="searchListingByKeyOrDistrict" parameterType="string" resultType="com.uml.model.Listing">
-        SELECT id, title, price
-        FROM listings
-        WHERE title
-            LIKE CONCAT('%', #{key}, '%')
-          and (select name
-               from districts
-               where id = district_id) = #{district}
+    <!-- 根据区名或民宿昵称查询民宿 -->
+    <select id="searchListingByKeyOrDistrict" parameterType="map" resultType="com.uml.model.Listing">
+        SELECT l.id, l.title, l.price
+        FROM listings l
+                 JOIN districts d ON l.district_id = d.id
+                 JOIN cities c ON d.city_id = c.id
+                 JOIN provinces p ON c.province_id = p.id
+        WHERE d.name = #{district}
+          AND (l.title LIKE CONCAT('%', #{key}, '%') OR #{key} IS NULL);
+    </select>
+
+    <!-- 根据市名或民宿昵称查询民宿 -->
+    <select id="searchListingByKeyOrCity" parameterType="map" resultType="com.uml.model.Listing">
+        SELECT l.id, l.title, l.price
+        FROM listings l
+                 JOIN districts d ON l.district_id = d.id
+                 JOIN cities c ON d.city_id = c.id
+                 JOIN provinces p ON c.province_id = p.id
+        WHERE c.name = #{city}
+          AND (l.title LIKE CONCAT('%', #{key} , '%') OR #{key} IS NULL);
+    </select>
+
+    <!-- 根据省名或民宿昵称查询民宿 -->
+    <select id="searchListingByKeyOrProvince" parameterType="map" resultType="com.uml.model.Listing">
+        SELECT l.id, l.title, l.price
+        FROM listings l
+                 JOIN districts d ON l.district_id = d.id
+                 JOIN cities c ON d.city_id = c.id
+                 JOIN provinces p ON c.province_id = p.id
+        WHERE p.name = #{province}
+          AND (l.title LIKE CONCAT('%', #{key}, '%') OR #{key} IS NULL);
     </select>
 
     <!-- 根据民宿ID获取民宿评分平均值 -->
-    <select id="findScoreByListingId" parameterType="Integer" resultType="int">
+    <select id="findScoreByListingId" parameterType="Integer" resultType="Integer">
         SELECT AVG(mark.score) AS average_score
         FROM mark
         WHERE mark.listing_id = #{id}; -- 替换为具体的民宿ID

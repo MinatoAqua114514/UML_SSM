@@ -107,7 +107,7 @@ DROP TABLE IF EXISTS provinces;
 CREATE TABLE provinces
 (
     id   INT PRIMARY KEY AUTO_INCREMENT, -- 主键，自增省ID
-    name VARCHAR(50) NOT NULL            -- 省的昵称
+    name VARCHAR(100) NOT NULL            -- 省的昵称
 );
 
 -- 市
@@ -115,8 +115,8 @@ DROP TABLE IF EXISTS cities;
 CREATE TABLE cities
 (
     id          INT PRIMARY KEY AUTO_INCREMENT, -- 主键，自增市ID
-    name        VARCHAR(50) NOT NULL,           -- 市的昵称
-    province_id INT         NOT NULL,           -- 外键，省ID
+    name        VARCHAR(100) NOT NULL,          -- 市的昵称
+    province_id INT                 ,           -- 外键，省ID
     FOREIGN KEY (province_id) REFERENCES provinces (id)
 );
 
@@ -125,31 +125,10 @@ DROP TABLE IF EXISTS districts;
 CREATE TABLE districts
 (
     id      INT PRIMARY KEY AUTO_INCREMENT, -- 主键，自增区ID
-    name    VARCHAR(50) NOT NULL,           -- 区的昵称
-    city_id INT         NOT NULL,           -- 外键，市ID
+    name    VARCHAR(100) NOT NULL,          -- 区的昵称
+    city_id INT                 ,           -- 外键，市ID
     FOREIGN KEY (city_id) REFERENCES cities (id)
 );
-
--- 插入省市区示例数据
-INSERT INTO provinces (id, name) VALUES (1, '海南省');
-INSERT INTO cities (id, name, province_id) VALUES (1, '海口市', 1);
-INSERT INTO cities (id, name, province_id) VALUES (2, '三亚市', 1);
-INSERT INTO cities (id, name, province_id) VALUES (3, '三沙市', 1);
-INSERT INTO cities (id, name, province_id) VALUES (4, '五指山市', 1);
-INSERT INTO districts (id, name, city_id) VALUES (1, '秀英区', 1);
-INSERT INTO districts (id, name, city_id) VALUES (2, '龙华区', 1);
-INSERT INTO districts (id, name, city_id) VALUES (3, '琼山区', 1);
-INSERT INTO districts (id, name, city_id) VALUES (4, '美兰区', 1);
-INSERT INTO districts (id, name, city_id) VALUES (5, '海棠区', 2);
-INSERT INTO districts (id, name, city_id) VALUES (6, '吉阳区', 2);
-INSERT INTO districts (id, name, city_id) VALUES (7, '天涯区', 2);
-INSERT INTO districts (id, name, city_id) VALUES (8, '崖州区', 2);
-INSERT INTO districts (id, name, city_id) VALUES (9, '西沙区', 3);
-INSERT INTO districts (id, name, city_id) VALUES (10, '南沙区', 3);
-INSERT INTO districts (id, name, city_id) VALUES (11, '通什镇', 4);
-INSERT INTO districts (id, name, city_id) VALUES (12, '南圣镇', 4);
-INSERT INTO districts (id, name, city_id) VALUES (13, '毛阳镇', 4);
-INSERT INTO districts (id, name, city_id) VALUES (14, '番阳镇', 4);
 
 -- 民宿信息表
 DROP TABLE IF EXISTS listings;
@@ -178,7 +157,7 @@ CREATE TABLE mark
     id         INT PRIMARY KEY AUTO_INCREMENT, -- 主键，自增评分ID
     user_id    INT     NOT NULL,               -- 外键，用户ID
     listing_id INT     NOT NULL,               -- 外键，民宿ID
-    score      TINYINT DEFAULT NULL,               -- 评分分数
+    score      TINYINT DEFAULT 0,               -- 评分分数
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     FOREIGN KEY (listing_id) REFERENCES listings (id) ON DELETE CASCADE
 );
@@ -209,9 +188,9 @@ CREATE TABLE evaluate
 INSERT INTO evaluate (user_id, listing_id, mark_id, content) VALUES
 (1, 1, 1, '非常满意，服务很好！'),
 (2, 1, 2, '环境不错，但价格稍贵。'),
-(1, 2, 3, '非常浪漫的地方，值得推荐！'),
+(5, 2, 3, '非常浪漫的地方，值得推荐！'),
 (3, 3, 4, '一般般，期待改进。'),
-(2, 4, 5, '很不错的体验，适合家庭出游。');
+(8, 4, 5, '很不错的体验，适合家庭出游。');
 
 -- 预定表
 DROP TABLE IF EXISTS book;
