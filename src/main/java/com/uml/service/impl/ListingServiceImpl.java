@@ -19,6 +19,12 @@ public class ListingServiceImpl implements ListingService {
 
 
     @Override
+    public  List<Listing> searchListingByKey(String key) {
+        List<Listing> listings = listingMapper.searchListingByKey(key);
+        return getListingList(listings);
+    }
+
+    @Override
     public List<Listing> getAllListing() {
         List<Listing> listings = listingMapper.getAllListing();
         return getListingList(listings);

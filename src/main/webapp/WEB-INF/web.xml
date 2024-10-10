@@ -8,7 +8,7 @@
     <!--Java Web应用的部署描述符文件
     用于配置Servlet，监听器，过滤器等-->
 
-<!--     指定启动项目跳转界面-->
+    <!-- 指定启动项目跳转界面-->
     <welcome-file-list>
         <welcome-file>/WEB-INF/views/index.jsp</welcome-file>
     </welcome-file-list>

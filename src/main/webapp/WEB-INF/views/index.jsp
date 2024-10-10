@@ -1,6 +1,7 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
-<html>
+<!DOCTYPE html>
+<html lang="zh">
 
 <head>
   <title>主页</title>
@@ -9,10 +10,16 @@
 </head>
 
 <body>
+  <c:if test="${not empty error}">
+    <script>
+      alert('${error}');
+    </script>
+  </c:if>
+
   <c:if test="${not empty success}">
-    <div class="alert alert-success" role="alert">
-        ${success}
-    </div>
+    <script>
+      alert('${success}');
+    </script>
   </c:if>
 
   <nav class="navbar navbar-default">
@@ -50,6 +57,7 @@
               <!-- 显示省对应的市下对应的区的数据 -->
             </select>
           </div>
+          <input type="text" name="key" id="keyInput">
           <button type="submit" class="btn btn-default">搜索</button>
         </form>
       </div>
@@ -79,7 +87,7 @@
     <iframe id="content-frame" src="${pageContext.request.contextPath}/listing/find_all_listings"></iframe>
   </div>
 
-<%--  <script src="${pageContext.request.contextPath}/js/index.js"></script>--%>
+
   <script src="${pageContext.request.contextPath}/js/loadlocation.js"></script>
   <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
   <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>

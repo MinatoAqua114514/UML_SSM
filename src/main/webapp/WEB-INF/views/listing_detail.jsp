@@ -18,13 +18,13 @@
             </c:forEach>
     </table>
 
-    <form action="${pageContext.request.contextPath}/listing/addBook/${listing.id}" method="post">
+    <form action="${pageContext.request.contextPath}/book/add/${listing.id}" method="post">
         <input type="date" name="checkInDate" id="checkInDate" placeholder="入住时间：yyyy-mm-dd">
         <input type="date" name="checkOutDate" id="checkOutDate" placeholder="退房时间：yyyy-mm-dd">
         <button type="submit">预定</button>
     </form>
 
-    <form action="${pageContext.request.contextPath}/listing/addEvaluate/${listing.id}" method="post">
+    <form action="${pageContext.request.contextPath}/evaluate/add/${listing.id}" method="post">
         <input type="text" name="content" id="content" placeholder="评论">
         <button type="submit">提交评论</button>
     </form>

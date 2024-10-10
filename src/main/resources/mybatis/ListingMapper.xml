@@ -4,6 +4,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.uml.dao.ListingMapper">
 
+    <!-- 根据民宿昵称查询民宿 -->
+    <select id="searchListingByKey" parameterType="map" resultType="com.uml.model.Listing">
+        SELECT l.id, l.title, l.price
+        FROM listings l
+                 JOIN districts d ON l.district_id = d.id
+                 JOIN cities c ON d.city_id = c.id
+                 JOIN provinces p ON c.province_id = p.id
+        WHERE (l.title LIKE CONCAT('%', #{key}, '%') OR #{key} IS NULL);
+    </select>
+
     <!-- 根据区名或民宿昵称查询民宿 -->
     <select id="searchListingByKeyOrDistrict" parameterType="map" resultType="com.uml.model.Listing">
         SELECT l.id, l.title, l.price

@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>民宿查询结果</title>
 </head>
 <body>
 <c:forEach var="listing" items="${listings}">

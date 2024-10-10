@@ -7,6 +7,9 @@ import java.util.List;
 
 public interface ListingMapper {
 
+    //根据民宿昵称查询民宿
+    List<Listing> searchListingByKey(@Param("key") String key);
+
     //根据区名或民宿昵称查询民宿
     List<Listing> searchListingByKeyOrDistrict(@Param("province") String province,
                                                @Param("city") String city,
